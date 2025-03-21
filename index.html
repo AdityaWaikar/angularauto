@@ -26,6 +26,25 @@
   <h2>
     hello git 
   </h2>
+  <p>stage('Copy to GCS Bucket') {
+    when {
+        expression { return env.CHANGED_FILES != '' }
+    }
+    steps {
+        script {
+            // Convert the list of files into an array
+            def files = env.CHANGED_FILES.split('\n')
+            
+            // Copy each file to GCS bucket
+            files.each { file ->
+                if (file?.trim()) {
+                    echo "Copying file: ${file}"
+                    bat "gsutil -m cp -r ${file} gs://${GCS_BUCKET}/${BUCKET_PATH}/"
+                }
+            }
+        }
+    }
+}</p>
 <script src="polyfills-FFHMD2TL.js" type="module"></script><script src="main-O33Y4AIY.js" type="module"></script></body>
 </html>
 
