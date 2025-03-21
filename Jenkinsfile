@@ -40,6 +40,17 @@ pipeline {
                
             }
         }
+        stage('Initialize Commit History') {
+            steps {
+                 script {
+                    if (!fileExists('.old_commit')) {
+                    echo "Initializing .old_commit file for the first run"
+                    bat 'git rev-parse HEAD > .old_commit'
+                    }
+                 }
+             }
+        }
+
         
         stage('Identify New Files') {
             steps {
