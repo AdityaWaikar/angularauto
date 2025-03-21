@@ -40,6 +40,17 @@ pipeline {
                
             }
         }
+
+        stage('Save Current Commit') {
+            steps {
+                script {
+                    // Save the current commit hash to .current_commit
+                    bat 'git rev-parse HEAD > .current_commit'
+                    echo "Current commit hash saved in .current_commit"
+                }
+            }
+        }
+        
         stage('Initialize Commit History') {
             steps {
                  script {
