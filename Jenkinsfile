@@ -79,8 +79,8 @@ pipeline {
             steps {
                 // Authenticate with GCP using the configured service account credentials
                 withCredentials([file(credentialsId: env.GCP_CREDENTIALS_ID, variable: 'GCP_KEY')]) {
-                    sh "gcloud auth activate-service-account --key-file=${GCP_KEY}"
-                    sh "gcloud config set project ${GCP_PROJECT_ID}"
+                    bat "gcloud auth activate-service-account --key-file=${GCP_KEY}"
+                    bat "gcloud config set project ${GCP_PROJECT_ID}"
                 }
             }
         }
@@ -98,7 +98,7 @@ pipeline {
                     files.each { file ->
                         if (file?.trim()) {
                             echo "Copying file: ${file}"
-                            sh "gsutil cp ${file} gs://${GCS_BUCKET}/${BUCKET_PATH}/"
+                            bat "gsutil cp ${file} gs://${GCS_BUCKET}/${BUCKET_PATH}/"
                         }
                     }
                 }
