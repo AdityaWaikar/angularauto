@@ -63,9 +63,10 @@ pipeline {
                     
                     // Get list of all files that were changed
                     env.CHANGED_FILES = bat(
-                        script: "git diff --name-status ${env.OLD_COMMIT} ${env.CURRENT_COMMIT} | findstr -E '^(A|M)' | cut -f2",
+                        script: "git diff --name-status ${env.OLD_COMMIT} ${env.CURRENT_COMMIT} | findstr \"A M\"",
                         returnStdout: true
                     ).trim()
+
                     
                     if (env.CHANGED_FILES) {
                         echo "New or modified files detected: ${env.CHANGED_FILES}"
