@@ -37,14 +37,7 @@ pipeline {
                 ])
                 
                 // Make a record of previously processed files (if any)
-                bat '''
-                if [ -f .previous_commit ]; then
-                    cp .previous_commit .old_commit
-                else
-                    git rev-parse HEAD~1 > .old_commit || git rev-parse HEAD > .old_commit
-                fi
-                git rev-parse HEAD > .current_commit
-                '''
+               
             }
         }
         
@@ -107,7 +100,7 @@ pipeline {
         
         stage('Cleanup') {
             steps {
-                // Save the current commit habat for the next run
+                // Save the current commit hash for the next run
                 bat 'cp .current_commit .previous_commit'
             }
         }
