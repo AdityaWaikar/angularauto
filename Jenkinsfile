@@ -45,8 +45,8 @@ pipeline {
             steps {
                 // Find files that were added or modified since the last build
                 script {
-                    env.OLD_COMMIT = bat(script: 'cat .old_commit', returnStdout: true).trim()
-                    env.CURRENT_COMMIT = bat(script: 'cat .current_commit', returnStdout: true).trim()
+                    env.OLD_COMMIT = bat(script: 'type .old_commit', returnStdout: true).trim()
+                    env.CURRENT_COMMIT = bat(script: 'type .current_commit', returnStdout: true).trim()
                     
                     echo "Checking for changes between ${env.OLD_COMMIT} and ${env.CURRENT_COMMIT}"
                     
