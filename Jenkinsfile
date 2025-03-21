@@ -110,16 +110,23 @@ pipeline {
                     // Split the list of changed files into an array
                     def files = env.CHANGED_FILES.split('\n')
             
-                    // Copy each file to GCS bucket
+                    // Iterate over each file and copy it to the GCS bucket
                     files.each { file ->
-                        if (file?.trim()) {
+                        if (file?.trim()) { // Ensure the file name is valid
                             echo "Copying file: ${file}"
                     
-                            // Construct the destination path dynamically
-                            def destinationPath = BUCKET_PATH ? "${BUCKET_PATH}/" : ''
+                            // Use PowerShell or replace backslashes with forward slashes (Windows compatibility)
+                            def sanitizedFile = file.replace('\\', '/')
                     
                             // Execute the gsutil copy command
-                            bat "gsutil -m cp -r ${file} gs://${GCS_BUCKET}/${destinationPath}"
+                            try {
+                                bat """
+                                gsutil -m cp -r ${sanitizedFile} gs://${GCS_BUCKET}/${BUCKET_PATH}/
+                                """
+                                echo "Successfully copied file: ${sanitizedFile}"
+                            } catch (Exception e) {
+                                echo "Error copying file ${sanitizedFile}: ${e}"
+                            }
                         }
                     }
                 }
