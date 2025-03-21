@@ -12,7 +12,6 @@ pipeline {
         GCP_PROJECT_ID = 'hardy-clover-447804-t3'
         GCS_BUCKET = 'htmlbucketaditya'
         GCP_CREDENTIALS_ID = '101'
-        BUCKET_PATH = ''
     }
     
     // Configure triggers to poll SCM for changes
@@ -121,7 +120,7 @@ pipeline {
                             // Execute the gsutil copy command
                             try {
                                 bat """
-                                gsutil -m cp -r ${sanitizedFile} gs://${GCS_BUCKET}/${BUCKET_PATH}/
+                                gsutil -m cp -r ${sanitizedFile} gs://${GCS_BUCKET}/
                                 """
                                 echo "Successfully copied file: ${sanitizedFile}"
                             } catch (Exception e) {
