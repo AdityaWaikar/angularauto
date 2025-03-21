@@ -50,7 +50,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Initialize Commit History') {
             steps {
                  script {
@@ -121,7 +121,7 @@ pipeline {
                             // Execute the gsutil copy command
                             try {
                                 bat """
-                                gsutil cp ${sanitizedFile} gs://${GCS_BUCKET}/${BUCKET_PATH}/
+                                gsutil -m cp -r ${sanitizedFile} gs://${GCS_BUCKET}/${BUCKET_PATH}/
                                 """
                                 echo "Successfully copied file: ${sanitizedFile}"
                             } catch (Exception e) {
