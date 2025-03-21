@@ -37,7 +37,7 @@ pipeline {
                 ])
                 
                 // Make a record of previously processed files (if any)
-                sh '''
+                bat '''
                 if [ -f .previous_commit ]; then
                     cp .previous_commit .old_commit
                 else
@@ -52,13 +52,13 @@ pipeline {
             steps {
                 // Find files that were added or modified since the last build
                 script {
-                    env.OLD_COMMIT = sh(script: 'cat .old_commit', returnStdout: true).trim()
-                    env.CURRENT_COMMIT = sh(script: 'cat .current_commit', returnStdout: true).trim()
+                    env.OLD_COMMIT = bat(script: 'cat .old_commit', returnStdout: true).trim()
+                    env.CURRENT_COMMIT = bat(script: 'cat .current_commit', returnStdout: true).trim()
                     
                     echo "Checking for changes between ${env.OLD_COMMIT} and ${env.CURRENT_COMMIT}"
                     
                     // Get list of all files that were changed
-                    env.CHANGED_FILES = sh(
+                    env.CHANGED_FILES = bat(
                         script: "git diff --name-status ${env.OLD_COMMIT} ${env.CURRENT_COMMIT} | grep -E '^(A|M)' | cut -f2",
                         returnStdout: true
                     ).trim()
@@ -107,8 +107,8 @@ pipeline {
         
         stage('Cleanup') {
             steps {
-                // Save the current commit hash for the next run
-                sh 'cp .current_commit .previous_commit'
+                // Save the current commit habat for the next run
+                bat 'cp .current_commit .previous_commit'
             }
         }
     }
