@@ -103,7 +103,7 @@ pipeline {
                     files.each { file ->
                         if (file?.trim()) {
                             echo "Copying file: ${file}"
-                            bat "gsutil cp ${file} gs://${GCS_BUCKET}/${BUCKET_PATH}/"
+                            bat "gsutil -m cp -r ${file} gs://${GCS_BUCKET}/${BUCKET_PATH}/"
                         }
                     }
                 }
